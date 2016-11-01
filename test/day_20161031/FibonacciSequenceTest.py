@@ -1,4 +1,5 @@
 import unittest
+import time
 
 from main.day_20161031.FibonacciSequence import *
 
@@ -18,10 +19,13 @@ class FibonacciSequenceTestClass(unittest.TestCase):
 
     def testGetFibonacciNumberByRecursive(self):
         fibonacci_sequence = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+        start = time.time()
         for index in range(1, 6):
             fibonacci_sequence_class = FibonacciSequence()
             fibonacci_sequence_class.get_fibonacci_number_by_recursive(index)
             self.assertEqual(fibonacci_sequence_class.FIBONACCI_LIST[index-1], fibonacci_sequence[index-1])
+        end = time.time()
+        print(end-start)
 
     if __name__ == '__main__':
         unittest.main()
