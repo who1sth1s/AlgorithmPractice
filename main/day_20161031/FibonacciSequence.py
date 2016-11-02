@@ -1,3 +1,5 @@
+import time
+
 class FibonacciSequence:
     def __init__(self):
         self.FIRST_NUMBER = 0
@@ -18,3 +20,13 @@ class FibonacciSequence:
             args_number -= 1
             self.FIBONACCI_LIST.append(self.FIBONACCI_LIST[-2] + self.FIBONACCI_LIST[-1])
             self.get_fibonacci_number_by_recursive(args_number)
+
+'''
+start = time.time()
+a = FibonacciSequence()
+a.get_fibonacci_number_by_recursive(950)
+end = time.time()
+print(a.FIBONACCI_LIST)
+print(len(a.FIBONACCI_LIST))
+print(end-start)
+'''
