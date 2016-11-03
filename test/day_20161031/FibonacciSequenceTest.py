@@ -23,7 +23,7 @@ class FibonacciSequenceTestClass(unittest.TestCase):
         for index in range(1, 300):
             fibonacci_sequence_class = FibonacciSequence()
             fibonacci_sequence_class.get_fibonacci_number_by_recursive(index)
-            self.assertEqual(fibonacci_sequence_class.FIBONACCI_LIST[index-1], fibonacci_sequence[index-1])
+            self.assertEqual(fibonacci_sequence_class.FINALLY_NUMBER, fibonacci_sequence[index-1])
         end = time.time()
         print(end-start)
 
