@@ -1,3 +1,6 @@
+import math
+
+
 BASIC_LIST = [1, 2, 3]
 ONE = 0
 TWO = 1
@@ -8,7 +11,8 @@ def get_combination(args):
     combination_list = list()
     combination_list = create_combination(args, combination_list)
     filter_combination_list = filter_combination(args, combination_list)
-    print(filter_combination_list)
+    combination_count = permutation_combination(filter_combination_list)
+    return combination_count
 
 
 def create_combination(args, combination_list):
@@ -36,4 +40,10 @@ def filter_combination(args, combination_list):
     return filter_combination_list
 
 
-get_combination(4)
+def permutation_combination(filter_combination_list):
+    combination_count = 0
+    for combination in filter_combination_list:
+        combination_count += int(math.factorial(len(combination)) / (math.factorial(combination.count(BASIC_LIST[ONE])) * math.factorial(combination.count(BASIC_LIST[TWO])) * math.factorial(combination.count(BASIC_LIST[THREE]))))
+
+    return combination_count
+
