@@ -1,7 +1,7 @@
 import unittest
 import time
 
-from main.day_20161109.NumberCombination import *
+from main.day_20161109.numberCombination import *
 
 
 class NumberCombinationTest(unittest.TestCase):
