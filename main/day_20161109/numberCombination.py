@@ -12,7 +12,7 @@ def get_combination(args):
     combination_list = create_combination(args, combination_list)
     filter_combination_list = filter_combination(args, combination_list)
     combination_count = permutation_combination(filter_combination_list)
-    return combination_count
+    return filter_combination_list
 
 
 def create_combination(args, combination_list):
