@@ -46,4 +46,3 @@ def permutation_combination(filter_combination_list):
         combination_count += int(math.factorial(len(combination)) / (math.factorial(combination.count(BASIC_LIST[ONE])) * math.factorial(combination.count(BASIC_LIST[TWO])) * math.factorial(combination.count(BASIC_LIST[THREE]))))
 
     return combination_count
-
