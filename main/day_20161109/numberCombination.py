@@ -66,5 +66,3 @@ def combination_case(filter_combination_list):
                     result_list.append(recursive_data)
 
     return result_list
-
-print(get_combination(5))
