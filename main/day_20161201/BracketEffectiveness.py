@@ -1,10 +1,24 @@
 '(), { }, , 〔 〕, [ ], 「 」, (()), 《 》, 〚〛, 〖 〗, 『 』'
 
 
+class CustomStack():
+
+    def __init__(self):
+        self.stack = list()
+
+    def push(self, parameter):
+        self.stack.append(parameter)
+
+    def pop(self):
+        return self.stack.pop()
+
+    def is_empty(self):
+        return not self.stack
+
+
 def bracket_effectiveness(input_string):
 
-    open_bracket_list = ['(', '{', '〔', '[', '「', '《', '〚', '〖', '『']
-    matching_bracket_list = {
+    matching_bracket_field = {
         '(': ')',
         '{': '}',
         '〔': '〕',
@@ -16,35 +30,35 @@ def bracket_effectiveness(input_string):
         '『': '』'
     }
 
-    bracket_in_input_string = list()
+    custom_stack = CustomStack()
 
     for input_char in input_string:
 
-        for open_bracket in open_bracket_list:
+        if check_open_bracket(input_char, matching_bracket_field):
+            custom_stack.push(input_char)
 
-            if input_char == open_bracket:
+        if check_close_bracket(input_char, matching_bracket_field):
 
-                bracket_in_input_string.append(input_char)
-                break
-
-        for matching_bracket in matching_bracket_list.values():
-
-            if input_char == matching_bracket:
-
-                if not bracket_in_input_string:
-
-                    return False
-
-                if matching_bracket_list.get(bracket_in_input_string.pop()) == input_char:
-                    break
+            if custom_stack.is_empty() or matching_bracket_field.get(custom_stack.pop()) != input_char:
 
                 return False
 
-    if bracket_in_input_string:
-
-        return False
-
-    return True
+    return not custom_stack.stack
 
 
-print(bracket_effectiveness('((()(({}))'))
+def check_open_bracket(input_char, matching_bracket_field):
+
+    if input_char in matching_bracket_field.keys():
+
+        return True
+     
+    return False
+
+
+def check_close_bracket(input_char, matching_bracket_field):
+    
+    if input_char in matching_bracket_field.values():
+        
+        return True
+    
+    return False
