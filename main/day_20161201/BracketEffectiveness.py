@@ -10,6 +10,11 @@ class CustomStack():
         self.stack.append(parameter)
 
     def pop(self):
+        
+        if self.is_empty():
+
+            return True
+
         return self.stack.pop()
 
     def is_empty(self):
@@ -39,7 +44,7 @@ def bracket_effectiveness(input_string):
 
         if check_close_bracket(input_char, matching_bracket_field):
 
-            if custom_stack.is_empty() or matching_bracket_field.get(custom_stack.pop()) != input_char:
+            if matching_bracket_field.get(custom_stack.pop()) != input_char:
 
                 return False
 
@@ -48,17 +53,9 @@ def bracket_effectiveness(input_string):
 
 def check_open_bracket(input_char, matching_bracket_field):
 
-    if input_char in matching_bracket_field.keys():
-
-        return True
-     
-    return False
+    return input_char in matching_bracket_field.keys()
 
 
 def check_close_bracket(input_char, matching_bracket_field):
     
-    if input_char in matching_bracket_field.values():
-        
-        return True
-    
-    return False
+    return input_char in matching_bracket_field.values()
