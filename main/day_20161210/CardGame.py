@@ -1,92 +1,98 @@
 import random
 
 
-CARD_SCORE_INDEX = 1
+class Dealer:
+
+    def __init__(self):
+
+        self.cards = [
+            'S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12', 'S13',
+            'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10', 'D11', 'D12', 'D13',
+            'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9', 'H10', 'H11', 'H12', 'H13',
+            'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13'
+        ]
+
+    def assign_card_to_player(self):
+
+        player_cards = random.sample(self.cards, 7)
+        self.remove_selected_cards(player_cards)
+
+        return player_cards
+
+    def remove_selected_cards(self, selected_cards):
+
+        for selected_card in selected_cards:
+            self.cards.remove(selected_card)
+
+    def make_winner_list(self, player_score_inventory):
+
+        maximum_score = max(player_score_inventory.values())
+        winner_list = list()
+
+        for player_index in player_score_inventory.keys():
+
+            if player_score_inventory.get(player_index) == maximum_score:
+
+                winner_list.append((player_index + 1, player_score_inventory.get(player_index)))
+
+        return winner_list
+
+    def check_winner_number(self, winner_list):
+
+        return len(winner_list) == 1
 
 
-def random_card_game(player_number):
-    cards = [
-        'S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12', 'S13',
-        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10', 'D11', 'D12', 'D13',
-        'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9', 'H10', 'H11', 'H12', 'H13',
-        'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13'
-    ]
+class Player:
+
+    def __init__(self):
+        self.CARD_SCORE_INDEX = 1
+        pass
+
+    def calculate_single_player_score(self, player):
+        player_scores = list()
+
+        for player_selected_card in player:
+            player_scores.append(int(player_selected_card[self.CARD_SCORE_INDEX:]))
+
+        return sum(player_scores)
+
+
+def kangwonland():
 
     while True:
 
-        make_players = [assign_card_to_player(cards) for _ in range(player_number)]
-        winner = choose_winner(make_players)
+        dealer = Dealer()
 
-        if check_winner_count(winner):
+        player1 = Player()
+        player2 = Player()
+        player3 = Player()
+        player4 = Player()
 
-            return 'Winner is ' + winner[0]
+        player1s_card = dealer.assign_card_to_player()
+        player2s_card = dealer.assign_card_to_player()
+        player3s_card = dealer.assign_card_to_player()
+        player4s_card = dealer.assign_card_to_player()
 
+        player1_score = player1.calculate_single_player_score(player1s_card)
+        player2_score = player2.calculate_single_player_score(player2s_card)
+        player3_score = player3.calculate_single_player_score(player3s_card)
+        player4_score = player4.calculate_single_player_score(player4s_card)
 
-def check_winner_count(winner):
+        player_score_inventory = assemble_players_score(player1_score, player2_score, player3_score, player4_score)
 
-    return len(winner) == 1
+        winner_list = dealer.make_winner_list(player_score_inventory)
 
+        if dealer.check_winner_number(winner_list):
 
-def assign_card_to_player(cards):
-
-    player_cards = random.sample(cards, 7)
-    remove_selected_cards(cards, player_cards)
-
-    return player_cards
-
-
-def remove_selected_cards(not_selected_cards, selected_cards):
-
-    for selected_card in selected_cards:
-        not_selected_cards.remove(selected_card)
-
-    return not_selected_cards
+            return 'Winner is Player' + str(winner_list[0][0])
 
 
-def choose_winner(players):
+def assemble_players_score(*players_score):
 
-    (player_indexes, players_scores) = calculate_players_score(players)
-    mapping_player_score_information = dict()
+    player_score_inventory = dict()
 
-    for index in range(4):
-        mapping_player_score_information[player_indexes[index]] = players_scores[index]
+    for player_index, player_score in enumerate(players_score):
 
-    finally_winner = make_winner_list(players_scores, mapping_player_score_information)
+        player_score_inventory[player_index] = player_score
 
-    return finally_winner
-
-
-def make_winner_list(players_scores, mapping_player_score_information):
-
-    finally_winner = list()
-    max_score = max(players_scores)
-
-    for key in mapping_player_score_information.keys():
-
-        if mapping_player_score_information.get(key) == max_score:
-            finally_winner.append('Player' + str(key + 1))
-
-    return finally_winner
-
-
-def calculate_players_score(players):
-
-    player_indexes = list()
-    players_scores = list()
-
-    for (player_index, player) in enumerate(players):
-        player_indexes.append(player_index)
-        player_scores = calculate_single_player_score(player)
-
-        players_scores.append(sum(player_scores))
-
-    return player_indexes, players_scores
-
-
-def calculate_single_player_score(player):
-    player_scores = list()
-
-    for player_selected_card in player:
-        player_scores.append(int(player_selected_card[CARD_SCORE_INDEX:]))
-
-    return player_scores
+    return player_score_inventory
