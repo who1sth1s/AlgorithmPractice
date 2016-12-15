@@ -33,7 +33,7 @@ class Dealer:
 
             if player_score_inventory.get(player_index) == maximum_score:
 
-                winner_list.append((player_index + 1, player_score_inventory.get(player_index)))
+                winner_list.append((player_index, player_score_inventory.get(player_index)))
 
         return winner_list
 
@@ -44,55 +44,62 @@ class Dealer:
 
 class Player:
 
-    def __init__(self):
+    def __init__(self, player_cards, player_number):
         self.CARD_SCORE_INDEX = 1
+        self.player_cards = player_cards
+        self.player_number = player_number
+        self.player_scores = 0
         pass
 
-    def calculate_single_player_score(self, player):
+    def __str__(self):
+        return 'Player' + str(self.player_number) + ' : ' + str(self.player_cards) + ' ' + str(self.player_scores)
+
+    def calculate_single_player_score(self):
         player_scores = list()
 
-        for player_selected_card in player:
+        for player_selected_card in self.player_cards:
             player_scores.append(int(player_selected_card[self.CARD_SCORE_INDEX:]))
 
-        return sum(player_scores)
+        self.player_scores = sum(player_scores)
 
 
-def kangwonland():
+def card_game():
 
     while True:
 
         dealer = Dealer()
 
-        player1 = Player()
-        player2 = Player()
-        player3 = Player()
-        player4 = Player()
+        player1 = Player(dealer.assign_card_to_player(), 1)
+        player2 = Player(dealer.assign_card_to_player(), 2)
+        player3 = Player(dealer.assign_card_to_player(), 3)
+        player4 = Player(dealer.assign_card_to_player(), 4)
 
-        player1s_card = dealer.assign_card_to_player()
-        player2s_card = dealer.assign_card_to_player()
-        player3s_card = dealer.assign_card_to_player()
-        player4s_card = dealer.assign_card_to_player()
+        player1.calculate_single_player_score()
+        player2.calculate_single_player_score()
+        player3.calculate_single_player_score()
+        player4.calculate_single_player_score()
 
-        player1_score = player1.calculate_single_player_score(player1s_card)
-        player2_score = player2.calculate_single_player_score(player2s_card)
-        player3_score = player3.calculate_single_player_score(player3s_card)
-        player4_score = player4.calculate_single_player_score(player4s_card)
-
-        player_score_inventory = assemble_players_score(player1_score, player2_score, player3_score, player4_score)
+        player_score_inventory = assemble_players_score(player1, player2, player3, player4)
 
         winner_list = dealer.make_winner_list(player_score_inventory)
 
         if dealer.check_winner_number(winner_list):
 
+            print(player1)
+            print(player2)
+            print(player3)
+            print(player4)
+            print('Winner is Player' + str(winner_list[0][0]))
+
             return 'Winner is Player' + str(winner_list[0][0])
 
 
-def assemble_players_score(*players_score):
+def assemble_players_score(*players):
 
     player_score_inventory = dict()
 
-    for player_index, player_score in enumerate(players_score):
+    for player in players:
 
-        player_score_inventory[player_index] = player_score
+        player_score_inventory[player.player_number] = player.player_scores
 
     return player_score_inventory
