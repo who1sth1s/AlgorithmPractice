@@ -1,0 +1,12 @@
+function(input)
+
+input type is int
+count is 0
+
+while count <= 100
+    next = (input) + (reverse(input))
+    count += 1
+
+
+    if str(next) == reverse(str(next)):
+        return input, count, next
